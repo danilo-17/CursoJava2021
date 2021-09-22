@@ -42,8 +42,7 @@ public class AlumnoDAO implements DAO {
 		ConnectionManager.conectar();
 		con=ConnectionManager.getConection();
 		
-		StringBuilder sql=new StringBuilder("UPDATE alumnos SET (ALU_NOMBRE,ALU_APELLIDO,ALU_ESTUDIOS,ALU_LINKGIT)VALUES ");
-		sql.append("?,?,?,?");
+		StringBuilder sql=new StringBuilder("UPDATE alumnos SET (ALU_NOMBRE =?,ALU_APELLIDO=?,ALU_ESTUDIOS=?,ALU_LINKGIT=?)VALUES ");
 		PreparedStatement stm=con.prepareStatement(sql.toString());
 		stm.setString(1, alumno.getNombre());
 		stm.setString(2, alumno.getApellido());
