@@ -24,6 +24,21 @@ public class Alumno implements Model{
 		this.linkARepositorio = linkARepositorio;
 		this.practicasResueltas = practicasResueltas;
 	}
+	
+	
+
+	public Alumno(int codigo, String nombre, String apellido, String estudios, String linkARepositorio) {
+		super();
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.estudios = estudios;
+		this.linkARepositorio = linkARepositorio;
+	}
+
+	public Alumno(int pCod) {
+		codigo=pCod;
+	}
 
 	public int getCodigo() {
 		return codigo;

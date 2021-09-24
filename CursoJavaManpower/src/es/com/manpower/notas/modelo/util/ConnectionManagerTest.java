@@ -1,7 +1,9 @@
 package es.com.manpower.notas.modelo.util;
 
+
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,15 +11,14 @@ import java.sql.SQLException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 class ConnectionManagerTest {
 	
 	Connection con;
 	
-	@BeforeEach
+	@Before
 	public void setUp() throws Exception{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/manpower", "root","Danilodejesus-8");

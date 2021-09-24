@@ -2,7 +2,9 @@ package es.com.manpower.notas.modelo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import es.com.manpower.notas.modelo.Alumno;
@@ -11,72 +13,114 @@ import es.com.manpower.notas.modelo.util.ConnectionManager;
 
 public class AlumnoDAO implements DAO {
 	
-	private Connection con;
+	private Connection conexion;
+	public AlumnoDAO() {
+		
+	}
 
 	@Override
-	public void agregar(Model pModel) throws ClassNotFoundException, SQLException {
-		Alumno alumno=(Alumno)pModel;
+	public void agregar(Model pMod) throws ClassNotFoundException, SQLException {
+		Alumno alumno= (Alumno)pMod;
 		
-		//1ª Me tengo que conectar a la base de datos
+		//1- me tengo que conectar
 		ConnectionManager.conectar();
-		con=ConnectionManager.getConection();
+		conexion = ConnectionManager.getConection();
+		//2- statemente
 		
-		//2ª Statemente
-		StringBuilder sql=new StringBuilder("INSERT INTO alumnos (ALU_NOMBRE,ALU_APELLIDO,ALU_ESTUDIOS,ALU_LINKGIT)VALUES ");
-		sql.append("?,?,?,?");
-		PreparedStatement stm=con.prepareStatement(sql.toString());
-		stm.setString(1, alumno.getNombre());
-		stm.setString(2, alumno.getApellido());
-		stm.setString(3, alumno.getEstudios());
-		stm.setString(4, alumno.getLinkARepositorio());
+		StringBuilder sql = new StringBuilder("INSERT INTO alumnos (ALU_NOMBRE,ALU_APELLIDO,ALU_ESTUDIOS,ALU_LINKGIT) VALUES");
+		sql.append("(?,?,?,?)");
 		
-		stm.executeUpdate();
+		PreparedStatement pstm = conexion.prepareStatement(sql.toString());
+		pstm.setString(1, alumno.getNombre());
+		pstm.setString(2, alumno.getApellido());
+		pstm.setString(3, alumno.getEstudios());
+		pstm.setString(4, alumno.getLinkARepositorio());
+		
+		pstm.executeUpdate();				
 		ConnectionManager.desConectar();
 	}
 
 	@Override
 	public void modificar(Model pModel) throws ClassNotFoundException, SQLException {
-		Alumno alumno=(Alumno)pModel;
+		Alumno alumno= (Alumno)pModel;
 		
-		//1ª Me tengo que conectar a la base de datos
+		//1- me tengo que conectar
 		ConnectionManager.conectar();
-		con=ConnectionManager.getConection();
+		conexion = ConnectionManager.getConection();
+		//2- statemente
 		
-		StringBuilder sql=new StringBuilder("UPDATE alumnos SET (ALU_NOMBRE =?,ALU_APELLIDO=?,ALU_ESTUDIOS=?,ALU_LINKGIT=?)VALUES ");
-		PreparedStatement stm=con.prepareStatement(sql.toString());
-		stm.setString(1, alumno.getNombre());
-		stm.setString(2, alumno.getApellido());
-		stm.setString(3, alumno.getEstudios());
-		stm.setString(4, alumno.getLinkARepositorio());
+		StringBuilder sql = new StringBuilder("update alumnos");
+		sql.append(" set ALU_NOMBRE=?, ALU_APELLIDO=?, ALU_ESTUDIOS=?, ALU_LINKGIT=?");
+		sql.append(" where alu_id=?");
 		
-		stm.executeUpdate();
+		PreparedStatement pstm = conexion.prepareStatement(sql.toString());
+		pstm.setString(1, alumno.getNombre());
+		pstm.setString(2, alumno.getApellido());
+		pstm.setString(3, alumno.getEstudios());
+		pstm.setString(4, alumno.getLinkARepositorio());
+		pstm.setInt(5, alumno.getCodigo());
+		
+		pstm.executeUpdate();				
 		ConnectionManager.desConectar();
 		
-	}
-
-	@Override
-	public void eliminar(Model pModel) throws ClassNotFoundException, SQLException {
-		
-	Alumno alumno=(Alumno)pModel;
-		
-		//1ª Me tengo que conectar a la base de datos
-		ConnectionManager.conectar();
-		con=ConnectionManager.getConection();
-		
-		StringBuilder sql=new StringBuilder("DELETE FROM alumnos WHERE ALU_ID = '"+alumno.getCodigo()+ "'");
-		sql.append("?,?,?,?");
-		PreparedStatement stm=con.prepareStatement(sql.toString());
-		stm.setLong(1, alumno.getCodigo());
-	
-		
-		stm.executeUpdate();
-		ConnectionManager.desConectar();
 
 	}
 
 	@Override
-	public List<Model> leer(Model pModel) {
-		return null;
+	public void eliminar(Model pMod) throws ClassNotFoundException, SQLException {
+		Alumno alumno= (Alumno)pMod;
+		
+		//1- me tengo que conectar
+		ConnectionManager.conectar();
+		conexion = ConnectionManager.getConection();
+		//2- statemente
+		
+		StringBuilder sql = new StringBuilder("delete from alumnos");		
+		sql.append(" where alu_id=?");
+		
+		PreparedStatement pstm = conexion.prepareStatement(sql.toString());
+		pstm.setInt(1, alumno.getCodigo());
+		
+		pstm.executeUpdate();				
+		ConnectionManager.desConectar();	
+
+	}
+
+	@Override
+	public List<Model> leer(Model pMod) throws ClassNotFoundException, SQLException {
+		Alumno alumno= (Alumno)pMod;
+		List<Model> alumnos = new ArrayList<Model>();
+		
+		//1- me tengo que conectar
+		ConnectionManager.conectar();
+		conexion = ConnectionManager.getConection();
+		//2- statemente
+		
+		StringBuilder sql = new StringBuilder("SELECT ALU_ID,ALU_NOMBRE,ALU_APELLIDO,ALU_ESTUDIOS,ALU_LINKGIT");
+		sql.append(" from alumnos");
+		//utilizar patron strategy
+		if(alumno.getCodigo()>0)
+			sql.append(" where alu_id=?");
+		//esto lo voy a hacer para probar.
+		//TODO agregar patron de diseño strategy
+		
+		PreparedStatement pstm = conexion.prepareStatement(sql.toString());
+		pstm.setInt(1, alumno.getCodigo());
+		
+		ResultSet rs =pstm.executeQuery();				
+		
+		
+		while(rs.next()){
+			alumnos.add(new Alumno(	rs.getInt("ALU_ID")			,
+									rs.getString("ALU_NOMBRE") 	,
+									rs.getString("ALU_APELLIDO"),
+									rs.getString("ALU_ESTUDIOS"), 
+									rs.getString("ALU_LINKGIT")));		
+		}
+		rs.close();
+		ConnectionManager.desConectar();
+		
+		return  alumnos;
 	}
 
 }
