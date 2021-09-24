@@ -15,5 +15,12 @@ public class DateUtil {
 		cal.setTime(pFecha);
 		return cal.get(Calendar.YEAR);
 	}
+	
+	public static int getMes(Date pFecha) {
+		
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(pFecha);
+		return cal.get(Calendar.MONTH);
+	}
 
 }

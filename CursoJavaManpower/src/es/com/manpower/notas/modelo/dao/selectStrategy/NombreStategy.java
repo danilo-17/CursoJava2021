@@ -4,14 +4,17 @@ public class NombreStategy extends SelectStrategy {
 
 	@Override
 	public String getCondicion() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb=new StringBuilder(" where alu_nombre like '%");
+		sb.append(alumno.getNombre());
+		sb.append("%'");
+		return sb.toString();
 	}
 
 	@Override
 	public boolean isMe() {
-		// TODO Auto-generated method stub
-		return false;
+		this.tengoWhere=alumno.getNombre() != null &&
+				!alumno.getNombre().isEmpty();
+		return alumno.getNombre() != null;
 	}
 
 }

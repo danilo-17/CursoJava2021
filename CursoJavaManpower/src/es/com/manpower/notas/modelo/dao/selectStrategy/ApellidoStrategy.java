@@ -4,14 +4,25 @@ public class ApellidoStrategy extends SelectStrategy {
 
 	@Override
 	public String getCondicion() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb=new StringBuilder();
+		if(tengoWhere) {
+			sb.append(" and alu_apellido like '%");
+			sb.append(alumno.getApellido());
+			sb.append("%'");
+		}else {
+			sb.append(" where alu_apellido like '%");
+			sb.append(alumno.getApellido());
+			sb.append("%'");
+			tengoWhere=true;
+		}
+		return sb.toString();
 	}
 
 	@Override
 	public boolean isMe() {
-		// TODO Auto-generated method stub
-		return false;
+		//this.isUltimo=alumno.getApellido() != null;
+		
+		return alumno.getApellido() != null && !alumno.getApellido().isEmpty();
 	}
 
 }

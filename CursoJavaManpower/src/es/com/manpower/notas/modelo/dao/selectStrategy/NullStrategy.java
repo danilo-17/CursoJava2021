@@ -2,16 +2,21 @@ package es.com.manpower.notas.modelo.dao.selectStrategy;
 
 public class NullStrategy extends SelectStrategy {
 
+	public NullStrategy() {
+		this.isUltimo=false;
+		this.tengoWhere=false;
+	}
+
 	@Override
 	public String getCondicion() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
 	public boolean isMe() {
-		// TODO Auto-generated method stub
-		return false;
+		this.isUltimo = this.alumno == null;
+		return this.alumno == null;
+		
 	}
 
 }
