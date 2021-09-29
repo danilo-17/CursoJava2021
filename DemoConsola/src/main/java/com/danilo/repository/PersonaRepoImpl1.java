@@ -16,5 +16,4 @@ public class PersonaRepoImpl1 implements IPersona{
 		log.info("Se registró a "+pNombre);
 		
 	}
-
 }

@@ -8,12 +8,11 @@ import com.danilo.repository.IPersona;
 @Service
 public class PersonaServiceImpl implements IpersonaService{
 	@Autowired
-	@Qualifier("persona2")
+	@Qualifier("persona1")
 	IPersona repo;
 	@Override
 	public void registrarHandler(String pNombre) {
 		
 		repo.registrar(pNombre);
 	}
-
 }

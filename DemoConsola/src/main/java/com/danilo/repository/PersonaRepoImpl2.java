@@ -10,11 +10,10 @@ import com.danilo.DemoConsolaApplication;
 @Repository
 @Qualifier("persona2")
 public class PersonaRepoImpl2 implements IPersona{
-
-		private static Logger log=LoggerFactory.getLogger(DemoConsolaApplication.class);
-		@Override
-		public void registrar(String pNombre) {
-			log.info("Se registró Felizmente a... "+pNombre);
+	private static Logger log=LoggerFactory.getLogger(DemoConsolaApplication.class);
+	@Override
+	public void registrar(String pNombre) {
+		log.info("Se registró Felizmente a... "+pNombre);
 		
 	}
 

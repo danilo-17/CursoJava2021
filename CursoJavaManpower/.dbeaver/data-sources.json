@@ -10,8 +10,8 @@
 			"configuration": {
 				"host": "localhost",
 				"port": "3306",
-				"database": "manpower",
-				"url": "jdbc:mysql://localhost:3306/manpower",
+				"database": "demo",
+				"url": "jdbc:mysql://localhost:3306/demo",
 				"home": "C:\\Program Files\\MySQL\\MySQL Router 8.0",
 				"type": "dev",
 				"properties": {
@@ -19,6 +19,23 @@
 					"rewriteBatchedStatements": "true",
 					"enabledTLSProtocols": "TLSv1,TLSv1.1,TLSv1.2"
 				},
+				"auth-model": "native",
+				"handlers": {}
+			}
+		},
+		"mysql8-17c32697490-36dfbe74e9cb205": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "demo",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"database": "demo",
+				"url": "jdbc:mysql://localhost:3306/demo",
+				"home": "C:\\Program Files\\MySQL\\MySQL Router 8.0",
+				"type": "dev",
 				"auth-model": "native",
 				"handlers": {}
 			}
