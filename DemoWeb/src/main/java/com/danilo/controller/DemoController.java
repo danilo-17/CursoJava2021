@@ -25,7 +25,7 @@ public class DemoController {
 			repo.delete(new Persona(1, "Danilo de Jesus"));
 			name="Danilocode";
 		}
-		Persona per=new Persona(3, name);
+		Persona per=new Persona(0, name);
 		repo.save(per);
 		model.addAttribute("name", name);
 		return "greeting";
